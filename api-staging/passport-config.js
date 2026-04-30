@@ -38,7 +38,9 @@ const initialize = (passport) => {
       });
     }
 
-    findOne('User', {email}, '+salt').then(resolve);
+    findOne('User', {email}, '+salt')
+    .then(resolve)
+    .catch(err => cb(err));
   }
 
   const serializeUser = (user, cb) => cb(null, user._id.toString());

@@ -1,0 +1,638 @@
+{
+    "service": {
+        "serviceArn": "arn:aws:ecs:us-east-1:664418980347:service/rentalapp-prod-cluster/rentalapp-prod-kibana",
+        "serviceName": "rentalapp-prod-kibana",
+        "clusterArn": "arn:aws:ecs:us-east-1:664418980347:cluster/rentalapp-prod-cluster",
+        "loadBalancers": [
+            {
+                "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228",
+                "containerName": "kibana",
+                "containerPort": 5601
+            }
+        ],
+        "serviceRegistries": [
+            {
+                "registryArn": "arn:aws:servicediscovery:us-east-1:664418980347:service/srv-zgfljacmen6mtcig"
+            }
+        ],
+        "status": "ACTIVE",
+        "desiredCount": 1,
+        "runningCount": 1,
+        "pendingCount": 0,
+        "launchType": "FARGATE",
+        "platformVersion": "1.4.0",
+        "platformFamily": "Linux",
+        "taskDefinition": "arn:aws:ecs:us-east-1:664418980347:task-definition/rentalapp-prod-kibana:4",
+        "deploymentConfiguration": {
+            "deploymentCircuitBreaker": {
+                "enable": true,
+                "rollback": true
+            },
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100,
+            "strategy": "ROLLING",
+            "bakeTimeInMinutes": 0
+        },
+        "deployments": [
+            {
+                "id": "ecs-svc/2624875866935567460",
+                "status": "PRIMARY",
+                "taskDefinition": "arn:aws:ecs:us-east-1:664418980347:task-definition/rentalapp-prod-kibana:4",
+                "desiredCount": 0,
+                "pendingCount": 0,
+                "runningCount": 0,
+                "failedTasks": 0,
+                "createdAt": "2026-04-25T13:42:22.744000+05:00",
+                "updatedAt": "2026-04-25T13:42:22.744000+05:00",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-039a4644e65964083",
+                            "subnet-0567caaff4b678135"
+                        ],
+                        "securityGroups": [
+                            "sg-0373ac47fa43ca4fe"
+                        ],
+                        "assignPublicIp": "DISABLED"
+                    }
+                },
+                "rolloutState": "IN_PROGRESS",
+                "rolloutStateReason": "ECS deployment ecs-svc/2624875866935567460 in progress."
+            },
+            {
+                "id": "ecs-svc/0101733892815703559",
+                "status": "ACTIVE",
+                "taskDefinition": "arn:aws:ecs:us-east-1:664418980347:task-definition/rentalapp-prod-kibana:4",
+                "desiredCount": 1,
+                "pendingCount": 0,
+                "runningCount": 1,
+                "failedTasks": 0,
+                "createdAt": "2026-04-25T02:33:00.883000+05:00",
+                "updatedAt": "2026-04-25T13:34:40.344000+05:00",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-039a4644e65964083",
+                            "subnet-0567caaff4b678135"
+                        ],
+                        "securityGroups": [
+                            "sg-0373ac47fa43ca4fe"
+                        ],
+                        "assignPublicIp": "DISABLED"
+                    }
+                },
+                "rolloutState": "COMPLETED",
+                "rolloutStateReason": "ECS deployment ecs-svc/0101733892815703559 completed."
+            }
+        ],
+        "roleArn": "arn:aws:iam::664418980347:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+        "events": [
+            {
+                "id": "ad4baa39-c6ad-4d10-a99f-d9a79afbbbdd",
+                "createdAt": "2026-04-25T13:34:40.350000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "7125a558-212e-4068-b32f-0b63febbd5e8",
+                "createdAt": "2026-04-25T13:34:40.349000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/0101733892815703559) deployment completed."
+            },
+            {
+                "id": "951bc62c-7bc8-4db4-8ce7-b381ec1c9958",
+                "createdAt": "2026-04-25T13:34:05.584000+05:00",
+                "message": "(service rentalapp-prod-kibana) rolling back to deployment ecs-svc/0101733892815703559."
+            },
+            {
+                "id": "29fdd78a-367b-4170-99cd-4500dee89dd6",
+                "createdAt": "2026-04-25T13:34:05.583000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/4792022035630943428) deployment failed: tasks failed to start."
+            },
+            {
+                "id": "70870f20-ac63-47e4-81f1-12d43ae3d2de",
+                "createdAt": "2026-04-25T13:33:48.230000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/4792022035630943428) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "38659a58-c96e-4f2a-b874-1dc3ff579c5b",
+                "createdAt": "2026-04-25T13:33:38.734000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "4be1a448-4675-4811-bf01-2fd8556bd726",
+                "createdAt": "2026-04-25T13:33:37.865000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task 1ee7468cf1b6461aa6e4a7c2ef5b8bbf)."
+            },
+            {
+                "id": "93bc3121-d94d-44a5-aec5-8f769eedbdb6",
+                "createdAt": "2026-04-25T13:33:37.828000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task 1ee7468cf1b6461aa6e4a7c2ef5b8bbf) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [404])."
+            },
+            {
+                "id": "edd82edb-1609-4fe5-be2c-cff8cfc9453d",
+                "createdAt": "2026-04-25T13:32:16.047000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "a07a455b-b44c-470f-a63b-5bd72f96493a",
+                "createdAt": "2026-04-25T13:31:25.601000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 1ee7468cf1b6461aa6e4a7c2ef5b8bbf)."
+            },
+            {
+                "id": "ec57cab1-9390-42eb-84ea-3fb46a75ec9e",
+                "createdAt": "2026-04-25T13:30:12.002000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "c7f0c78f-53fe-4570-95ef-d16fd271c245",
+                "createdAt": "2026-04-25T13:30:11.864000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/4792022035630943428) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "0082f39a-6475-415f-97e9-4ecbd01c9653",
+                "createdAt": "2026-04-25T13:30:11.859000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "6feef4d0-dc49-450e-90ae-3ce88968ff39",
+                "createdAt": "2026-04-25T13:30:02.421000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task fd3dcd8e3d46432792e5a19f936255c3)."
+            },
+            {
+                "id": "e337337d-e3e2-4767-8d46-2e8d6e0bb3ca",
+                "createdAt": "2026-04-25T13:30:02.378000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task fd3dcd8e3d46432792e5a19f936255c3) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [404])."
+            },
+            {
+                "id": "90264348-796a-4a2f-bcbb-14630e00d40c",
+                "createdAt": "2026-04-25T13:28:39.680000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "06f7695d-2228-4e7e-8127-4ff5fa6b375a",
+                "createdAt": "2026-04-25T13:27:59.353000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task fd3dcd8e3d46432792e5a19f936255c3)."
+            },
+            {
+                "id": "0d877cab-650b-4a4e-a83c-9597786f0833",
+                "createdAt": "2026-04-25T13:26:46.540000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "9a6d1706-85cd-4d71-bdbc-70c358055430",
+                "createdAt": "2026-04-25T13:26:46.421000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/4792022035630943428) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "29ca95b1-9ba5-4e74-9eff-855e07cce5e0",
+                "createdAt": "2026-04-25T13:26:46.416000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "6df9bdc0-0b29-463a-91bd-9f255e25b70e",
+                "createdAt": "2026-04-25T13:26:37.111000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task 0e85b4e550d14182b4f60f60c77c6bad)."
+            },
+            {
+                "id": "68d4261f-98cd-4d51-8e4e-e9a45cc17ebf",
+                "createdAt": "2026-04-25T13:26:37.069000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task 0e85b4e550d14182b4f60f60c77c6bad) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [404])."
+            },
+            {
+                "id": "d10a1690-2346-42f8-854c-d02de8a2d570",
+                "createdAt": "2026-04-25T13:25:24.968000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "c122160f-173f-44a4-9028-f345b6de35b4",
+                "createdAt": "2026-04-25T13:24:34.858000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 0e85b4e550d14182b4f60f60c77c6bad)."
+            },
+            {
+                "id": "5d4bd84c-4ca7-48e3-96fa-a592a800433d",
+                "createdAt": "2026-04-25T13:15:18.072000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "14fd15ba-c6cf-47af-86d2-5b016175c927",
+                "createdAt": "2026-04-25T13:15:18.071000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/0101733892815703559) deployment completed."
+            },
+            {
+                "id": "8b3220dc-913f-432d-bd7c-07192079b530",
+                "createdAt": "2026-04-25T13:14:32.387000+05:00",
+                "message": "(service rentalapp-prod-kibana) rolling back to deployment ecs-svc/0101733892815703559."
+            },
+            {
+                "id": "c3e30c79-03e0-4b6d-8011-8500938025ab",
+                "createdAt": "2026-04-25T13:14:32.386000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/2283666205505721011) deployment failed: tasks failed to start."
+            },
+            {
+                "id": "5e3feff7-4805-442b-b221-bbebdbf8e661",
+                "createdAt": "2026-04-25T13:14:06.855000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/2283666205505721011) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "f5f7d1d9-65dd-4711-a171-2c935e708c32",
+                "createdAt": "2026-04-25T13:13:56.652000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "976b2c7b-7d1d-4a12-ae1c-5dac921d62d0",
+                "createdAt": "2026-04-25T13:13:56.040000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task a7e9cc80a6fc4dda853bc2fa07e934cc)."
+            },
+            {
+                "id": "3eb057aa-816c-404f-9531-7e2e86e999e9",
+                "createdAt": "2026-04-25T13:13:56.007000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task a7e9cc80a6fc4dda853bc2fa07e934cc) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [401])."
+            },
+            {
+                "id": "b4efb981-56be-415b-9517-52de7f421f96",
+                "createdAt": "2026-04-25T13:12:34.608000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "cb21e1cc-5c8e-496d-baea-ddc31a8bcc7d",
+                "createdAt": "2026-04-25T13:11:43.756000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task a7e9cc80a6fc4dda853bc2fa07e934cc)."
+            },
+            {
+                "id": "dfcd98a4-c03c-47bc-8498-d6dd4273f558",
+                "createdAt": "2026-04-25T13:10:40.910000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/2283666205505721011) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "67c91a25-377c-4b03-89a2-8763b3245edb",
+                "createdAt": "2026-04-25T13:10:30.814000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "19e2856c-20db-45be-8711-f632819ce792",
+                "createdAt": "2026-04-25T13:10:29.922000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task f0ef9124f3db4ff5879a1fddeb49390d)."
+            },
+            {
+                "id": "16b34098-0c9e-4682-9cae-8082b581f204",
+                "createdAt": "2026-04-25T13:10:29.885000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task f0ef9124f3db4ff5879a1fddeb49390d) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [401])."
+            },
+            {
+                "id": "00aa17d4-824b-4035-b7df-c76708d0eda4",
+                "createdAt": "2026-04-25T13:09:07.768000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "47415365-fbf2-4449-b6d7-5f6e23b2ceda",
+                "createdAt": "2026-04-25T13:08:28.706000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task f0ef9124f3db4ff5879a1fddeb49390d)."
+            },
+            {
+                "id": "644e6718-c5f8-42ed-8e40-021c431e05c3",
+                "createdAt": "2026-04-25T13:07:14.615000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "5cab6d40-889d-4044-952c-28795c9c23d8",
+                "createdAt": "2026-04-25T13:07:14.502000+05:00",
+                "message": "(service rentalapp-prod-kibana, taskSet ecs-svc/2283666205505721011) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "9af575df-1967-4ac9-8342-0210a9a5d415",
+                "createdAt": "2026-04-25T13:07:14.498000+05:00",
+                "message": "(service rentalapp-prod-kibana) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "85d04f75-ba69-451a-8bb0-216ed73de63b",
+                "createdAt": "2026-04-25T13:07:04.666000+05:00",
+                "message": "(service rentalapp-prod-kibana) has stopped 1 running tasks: (task cf1a3b52e86a44a394993e33e14570c7)."
+            },
+            {
+                "id": "c86696fe-237b-4e0e-8c80-0f5429874297",
+                "createdAt": "2026-04-25T13:07:04.627000+05:00",
+                "message": "(service rentalapp-prod-kibana) (task cf1a3b52e86a44a394993e33e14570c7) (port 5601) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228) due to (reason Health checks failed with these codes: [401])."
+            },
+            {
+                "id": "98e19d82-68ab-4107-abed-513eff6ecfa9",
+                "createdAt": "2026-04-25T13:05:52.799000+05:00",
+                "message": "(service rentalapp-prod-kibana) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:664418980347:targetgroup/rentalapp-prod-kibana-tg/635771a78c32a228)"
+            },
+            {
+                "id": "29404cf8-f8dd-4261-9e0c-4e70cb96c59f",
+                "createdAt": "2026-04-25T13:05:11.982000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task cf1a3b52e86a44a394993e33e14570c7)."
+            },
+            {
+                "id": "940c7ffa-5a74-4e50-88b1-36ae528ae043",
+                "createdAt": "2026-04-25T08:35:37.803000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "5eb32303-0f00-49c8-94ce-4e4915372610",
+                "createdAt": "2026-04-25T02:35:36.072000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "018d889f-7845-4539-8a6c-e175992b5647",
+                "createdAt": "2026-04-25T02:35:36.071000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/0101733892815703559) deployment completed."
+            },
+            {
+                "id": "d412a000-8496-4982-8078-fc53f3981b44",
+                "createdAt": "2026-04-25T02:33:04.752000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task c127f27963fd4617a9e337ed4aadc8a5)."
+            },
+            {
+                "id": "ee0a3229-6891-4080-a91b-a834e31a3c9b",
+                "createdAt": "2026-04-25T02:31:26.668000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 167c1d465d03407f8f3667769242da2c)."
+            },
+            {
+                "id": "b16e83f6-da60-454f-8fda-192d839ccf89",
+                "createdAt": "2026-04-25T02:30:55.048000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "7842583d-8678-4c17-a825-42628ff635bb",
+                "createdAt": "2026-04-25T02:29:31.460000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 9eb39ba30b9a495d848d97a3d2995481)."
+            },
+            {
+                "id": "5e4cecfb-bc06-4cd0-a03a-5fe8aff85030",
+                "createdAt": "2026-04-25T02:28:28.458000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "45017c71-9125-449a-b19b-e23dffd2febc",
+                "createdAt": "2026-04-25T02:27:11.870000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 3e6f5b4384f34f92b3845108464f7a42)."
+            },
+            {
+                "id": "34694378-8afd-4564-9fbe-1efac68bb05a",
+                "createdAt": "2026-04-25T02:26:40.222000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "6a9f466e-5b61-4fe6-ae52-67063d3036f2",
+                "createdAt": "2026-04-25T02:24:55.048000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task f8c01071d4a84c5aaffb4887a7f2a895)."
+            },
+            {
+                "id": "981050bd-e861-4f6e-a37f-d24a34f85bba",
+                "createdAt": "2026-04-25T02:24:22.166000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "a70d4a2a-b668-4e85-a0c8-2f870ff1afc0",
+                "createdAt": "2026-04-25T02:22:27.623000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 61dfe7cd021d4f55868f9f23facc907d)."
+            },
+            {
+                "id": "a777521f-80b3-4d95-8948-1e181dce6f22",
+                "createdAt": "2026-04-25T02:21:55.759000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "f9469adf-6c40-4e06-badd-74ce279ff085",
+                "createdAt": "2026-04-25T02:20:18.959000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task f3d1b5bd776445a29640bc8d5c1861ed)."
+            },
+            {
+                "id": "01310dd8-cc67-4d1c-bb38-ad59aabbd060",
+                "createdAt": "2026-04-25T02:18:26.770000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 99179c0760f149f097615c5c686ee779)."
+            },
+            {
+                "id": "00790553-1109-4f8d-80bb-df3d62e1652e",
+                "createdAt": "2026-04-25T02:17:56.704000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "5a673d69-464b-4fc2-9bcc-9929e61f9d55",
+                "createdAt": "2026-04-25T02:16:38.889000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 97a5c3caedb44ad9a2aeda15ffe44dc4)."
+            },
+            {
+                "id": "ac1cdcbc-73a5-45c8-849e-2da5ebdd1da3",
+                "createdAt": "2026-04-25T02:16:07.414000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "be10f516-be39-4718-9ce5-363d4fa62670",
+                "createdAt": "2026-04-25T02:14:41.619000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 1d596081fa9146cfb205b0cd036bae5c)."
+            },
+            {
+                "id": "bf68c5f3-077a-4e9f-bb8e-4276b555d004",
+                "createdAt": "2026-04-25T02:14:09.577000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "1ea8c732-84c3-407f-ab75-539a18f5b91e",
+                "createdAt": "2026-04-25T02:12:41.062000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task b5d97514a11042b6800360c2264430f7)."
+            },
+            {
+                "id": "e77a07d2-0322-4a42-bd54-cda0e3a5d05f",
+                "createdAt": "2026-04-25T02:10:50.824000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 2afa6a5d23314def801558f14126c8ee)."
+            },
+            {
+                "id": "923b5e34-9744-43e7-bcd2-29b9a99eebe7",
+                "createdAt": "2026-04-25T02:10:17.683000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "32e18ddc-3c4e-4772-ace0-32a9045171fb",
+                "createdAt": "2026-04-25T02:08:40.678000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 00c04334a45d48f7b4e50289540300c1)."
+            },
+            {
+                "id": "45f0fb8c-a4df-44b2-933d-f6e0d34f1ab3",
+                "createdAt": "2026-04-25T02:08:08.381000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "ddec8e60-f0bb-4c0f-94a7-749347689374",
+                "createdAt": "2026-04-25T02:06:21.291000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 1f55e97a86344c419f4c3a137dc541d4)."
+            },
+            {
+                "id": "1341b72d-e591-4107-b3c3-db4e060dd4f8",
+                "createdAt": "2026-04-25T02:05:50.171000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "191d6c04-5ef5-43ba-9cea-2bc8fa0d0a2c",
+                "createdAt": "2026-04-25T02:04:24.380000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 6a3efc247efe4d07ac7aaccad4301725)."
+            },
+            {
+                "id": "be456b8e-32a9-42af-87e7-ead503904346",
+                "createdAt": "2026-04-25T02:03:52.654000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "85b6ca5e-b686-4043-aef4-a67a5e4d1983",
+                "createdAt": "2026-04-25T02:02:24.682000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task ded59137be8a4560a502979c9fdf5905)."
+            },
+            {
+                "id": "5f7198d6-e41c-4648-bbf1-a9d6bb856b42",
+                "createdAt": "2026-04-25T02:01:52.997000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "9b60d679-a405-4591-9e15-2e371dd3ba0a",
+                "createdAt": "2026-04-25T02:00:15.250000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 3c8b4dbfafb84c1fb7d853b4f5341c58)."
+            },
+            {
+                "id": "bc15a780-c83a-4cf8-bcdf-edb5635054de",
+                "createdAt": "2026-04-25T01:59:43.223000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "09345c36-f0ac-4aa6-83e1-5940eaed8aab",
+                "createdAt": "2026-04-25T01:57:53.955000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 082ecdec6c014fe7ab82e9b4b515c61b)."
+            },
+            {
+                "id": "7535d639-f900-470c-8074-fae336b11505",
+                "createdAt": "2026-04-25T01:57:21.511000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "9aa2e11c-a248-41e8-888c-a32f5d783b63",
+                "createdAt": "2026-04-25T01:55:53.227000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 0fa52960dcc64663a198acf361a57ffb)."
+            },
+            {
+                "id": "4bc55506-0998-403a-814e-ad63dfccc19f",
+                "createdAt": "2026-04-25T01:55:22.901000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "0a1c47a7-3944-472a-bbfc-cda240748029",
+                "createdAt": "2026-04-25T01:53:55.191000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 9f38700e02fd4857a64eb2ccfde6b3b3)."
+            },
+            {
+                "id": "409627d5-c78b-4420-bd28-78222c37c30d",
+                "createdAt": "2026-04-25T01:53:22.781000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "c3062c0c-7339-4001-b5ed-8d631c518226",
+                "createdAt": "2026-04-25T01:52:06.946000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 88d7e5b2fd2642378cd7cccaf03a1a1d)."
+            },
+            {
+                "id": "c9ee78c2-71fa-4646-b4ad-d4c5344df02a",
+                "createdAt": "2026-04-25T01:51:36.299000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "a251fc02-85bd-4e60-a5e2-e3490b35628a",
+                "createdAt": "2026-04-25T01:50:10.234000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task ee4e534f7c074fcf8e1f5e929b1fd873)."
+            },
+            {
+                "id": "0e6e4598-d3e9-41f4-a6d1-25dfa63cebba",
+                "createdAt": "2026-04-25T01:49:38.867000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "b2a8222d-a25e-43b1-82b2-ff1e0c8d3cc2",
+                "createdAt": "2026-04-25T01:48:21.320000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 1af18c079e3147ca891c25462e75d4b2)."
+            },
+            {
+                "id": "504745ce-c36f-43f3-8dd6-43f6d02b5b0c",
+                "createdAt": "2026-04-25T01:47:50.991000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "e4c40ac6-5c1e-4233-ae88-eebb4cac3520",
+                "createdAt": "2026-04-25T01:46:23.072000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 88ad4989079748aa923d6997f6f56352)."
+            },
+            {
+                "id": "5850063c-54c9-4922-80d0-ac6551db4a4d",
+                "createdAt": "2026-04-25T01:45:50.805000+05:00",
+                "message": "(service rentalapp-prod-kibana) has reached a steady state."
+            },
+            {
+                "id": "88c84923-4949-4a2a-a5cc-933b8dc0da90",
+                "createdAt": "2026-04-25T01:45:50.804000+05:00",
+                "message": "(service rentalapp-prod-kibana) (deployment ecs-svc/8223360425429327389) deployment completed."
+            },
+            {
+                "id": "a060396e-936b-4291-bfbf-29188f0477e2",
+                "createdAt": "2026-04-25T01:44:13.176000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task 721352f5c7d64a508809ca67a823afc6)."
+            },
+            {
+                "id": "5e0e076c-4566-456b-bc0e-2d0ed04849af",
+                "createdAt": "2026-04-25T01:42:50.273000+05:00",
+                "message": "(service rentalapp-prod-kibana) stopped 1 pending tasks."
+            },
+            {
+                "id": "aa0a45d5-b4e5-466a-a99f-961f275971a4",
+                "createdAt": "2026-04-25T01:42:40.866000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task e331b1bfc2a1435d8b2a78d283ea674e)."
+            },
+            {
+                "id": "c4d7cba6-868c-4637-a6d8-13f13712c8f9",
+                "createdAt": "2026-04-25T01:42:09.829000+05:00",
+                "message": "(service rentalapp-prod-kibana) has started 1 tasks: (task f30ce0bc7b944d788baf7590fb6f28e5)."
+            }
+        ],
+        "createdAt": "2026-04-24T21:05:48.755000+05:00",
+        "currentServiceRevisions": [
+            {
+                "arn": "arn:aws:ecs:us-east-1:664418980347:service-revision/rentalapp-prod-cluster/rentalapp-prod-kibana/2624875866935567460",
+                "requestedTaskCount": 0,
+                "runningTaskCount": 0,
+                "pendingTaskCount": 0
+            },
+            {
+                "arn": "arn:aws:ecs:us-east-1:664418980347:service-revision/rentalapp-prod-cluster/rentalapp-prod-kibana/0101733892815703559",
+                "requestedTaskCount": 1,
+                "runningTaskCount": 1,
+                "pendingTaskCount": 0
+            }
+        ],
+        "placementConstraints": [],
+        "placementStrategy": [],
+        "networkConfiguration": {
+            "awsvpcConfiguration": {
+                "subnets": [
+                    "subnet-039a4644e65964083",
+                    "subnet-0567caaff4b678135"
+                ],
+                "securityGroups": [
+                    "sg-0373ac47fa43ca4fe"
+                ],
+                "assignPublicIp": "DISABLED"
+            }
+        },
+        "healthCheckGracePeriodSeconds": 0,
+        "schedulingStrategy": "REPLICA",
+        "deploymentController": {
+            "type": "ECS"
+        },
+        "createdBy": "arn:aws:iam::664418980347:user/terraform-new-admin",
+        "enableECSManagedTags": false,
+        "propagateTags": "NONE",
+        "enableExecuteCommand": false,
+        "availabilityZoneRebalancing": "DISABLED",
+        "resourceManagementType": "CUSTOMER"
+    }
+}

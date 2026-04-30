@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rental-api-config
+  namespace: rental
+data:
+  CLIENT_URL: "https://rental.example.com"

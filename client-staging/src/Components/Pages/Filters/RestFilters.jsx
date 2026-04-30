@@ -161,7 +161,8 @@ export default function RestFilters({ isVisible, handleClose, filter, applyFilte
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={values.ratings}
+                //value={values.ratings}
+                value={values.ratings === 0 ? "" : values.ratings}
                 disabled={!values.condition}
                 label="Ratings"
                 onChange={handleChange}

@@ -1,0 +1,45 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node dependencies and build output
+**/node_modules/
+client-staging/build/
+coverage/
+
+# Environment files and secrets
+.env
+.env.*
+!*.env.example
+api-staging/.env
+client-staging/.env
+k8s/overlays/minikube/secrets.env
+k8s/overlays/minikube/mongo-credentials.env
+k8s/overlays/production/secrets.env
+
+# Terraform state and local artifacts
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.plan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local binaries and tooling downloads
+kubectl
+minikube-linux-amd64

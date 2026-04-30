@@ -1,0 +1,40 @@
+# Terraform working directories
+**/.terraform/*
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform plan and execution artifacts
+*.tfplan
+*.plan
+crash.log
+crash.*.log
+
+# Variable files that often contain secrets
+*.tfvars
+*.tfvars.json
+
+# Ignore all auto tfvars by default; keep examples tracked
+*.auto.tfvars
+*.auto.tfvars.json
+!*.auto.tfvars.example
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform dependency lock file (uncomment if you do not want to commit)
+# .terraform.lock.hcl
+
+# Editor/OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

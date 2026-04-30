@@ -80,6 +80,15 @@ exports.getBikes = (req, res) => {
     const options = { customLabels: { docs: "bikes" }, page, limit, sort: {createdAt: -1} };
 
     paginate('Bike', {}, options).then(async response => {
+      // 1. SAFETY CATCH: Guarantee response and response.bikes exist
+      if (!response) response = { bikes: [], totalDocs: 0 };
+      response.bikes = response.bikes || [];
+
+      // 2. EARLY RETURN: If DB is empty, stop here and return gracefully
+      if (response.bikes.length === 0) {
+        return res.status(200).send(response);
+      }
+
       let result = [];
       response.bikes.forEach(bike => result.push(extractId(bike)));
 
@@ -106,6 +115,10 @@ exports.getBikes = (req, res) => {
       } else {
         return res.status(200).send(response);
       }
+    }).catch(err => {
+      // Catch any database querying errors explicitly
+      console.error("Bike Search Error:", err);
+      return res.status(500).send({ message: DEFAULT });
     });
   } catch (error) {
     return res.status(500).send({ message: DEFAULT });

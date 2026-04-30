@@ -5,7 +5,7 @@ export const MIN_PASSWORD_CHARACTERS = 8;
 export const MAX_PASSWORD_CHARACTERS = 50;
 export const SKELETON_LOAD_TIME = 250;
 export const INITIAL_FILTER = { model: "", color: "", location: "", ratings: 0, condition: "" };
-export const API_BASE_URL = "http://localhost:4000/api";
+export const API_BASE_URL = "";
 export const RATINGS = [1, 2, 3, 4, 5];
 export const CONDITIONS = ['<', '>', '='];
 export const DEFAULT_LIMIT = 100;

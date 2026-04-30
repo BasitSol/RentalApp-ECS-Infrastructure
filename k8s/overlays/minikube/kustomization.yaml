@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: rental
+
+resources:
+  - ../../base
+  - mongo.yaml
+  - allow-client-to-api-networkpolicy.yaml
+  - allow-client-egress-to-api-networkpolicy.yaml
+
+patches:
+  - path: patch-ingress.yaml
+  - path: patch-api-deployment.yaml
+  - path: patch-client-deployment.yaml
+  - path: patch-configmap.yaml
+
+secretGenerator:
+  - name: rental-api-secrets
+    envs:
+      - secrets.env
+  - name: mongo-credentials
+    envs:
+      - mongo-credentials.env
+
+images:
+  - name: ghcr.io/your-org/rental-backend
+    newName: rental-backend
+    newTag: v1
+  - name: ghcr.io/your-org/rental-frontend
+    newName: rental-frontend
+    newTag: v1

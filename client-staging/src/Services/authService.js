@@ -2,7 +2,8 @@ import { API_BASE_URL } from "../Constants";
 import ApiServices from "./ApiServices";
 import {
   login,
-  signup
+  signup,
+  logout as logoutPath
 } from "./ApiServices/Urls";
 
 export const signInService = payload =>
@@ -12,4 +13,4 @@ export const signUpService = payload =>
   ApiServices.post(`${API_BASE_URL}${signup}`, payload);
 
 export const logout = () =>
-  ApiServices.post(`${API_BASE_URL}/`);
+  ApiServices.post(`${API_BASE_URL}${logoutPath}`);

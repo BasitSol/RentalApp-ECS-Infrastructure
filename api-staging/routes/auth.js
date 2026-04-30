@@ -7,14 +7,17 @@ const {
   findById,
   authenticate,
   registerManager,
-  registerUser
+  registerUser,
+  bootstrapManager,
  } = require("../controllers/authenticationController.js");
 
 authRouter.post("/login", login);
 authRouter.post("/signup", registerUser);
 authRouter.get("/me", authenticate(), findById);
 authRouter.post("/logout", authenticate(), logout);
-authRouter.post("/registerManger", authenticate("MANAGER"), registerManager);
+//Temporarily commenting out this line
+authRouter.post("/registerManager", authenticate("MANAGER"), registerManager);
+authRouter.post("/bootstrap-manager", bootstrapManager);
 
 
 module.exports = authRouter;

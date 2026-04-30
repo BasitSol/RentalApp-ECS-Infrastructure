@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: rental
+spec:
+  template:
+    spec:
+      containers:
+        - name: api
+          imagePullPolicy: Never

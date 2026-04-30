@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.*
+
+# Local build output — will be regenerated inside the builder stage
+build
+dist
+
+# Test coverage
+coverage
+
+# Version control
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Editor / OS metadata
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+*.md
+
+# E2E / test files
+cypress
+*.cy.js

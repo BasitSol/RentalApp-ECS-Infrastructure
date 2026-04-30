@@ -95,24 +95,44 @@ exports.getDetails = (req, res) => {
       'Reservation',
       {},
       { customLabels: { docs: "reservations" } }
-    ).then(reservations => res.status(200).send(reservations));
+    ).then(result => {
+      // Logic: If result exists but has no docs, send empty array instead of null
+      const reservations = result?.reservations || [];
+      res.status(200).send({ ...result, reservations });
+    });
   } catch (error) {
+    console.error("getDetails Error:", error);
     return res.status(500).send({ message: DEFAULT });
   }
 }
 
 exports.getHistory = (req, res) => {
   try {
-    const { userId, limit=66, page=1 } = req.query;
+    const { userId, limit = 66, page = 1 } = req.query;
+
+    // PROTECTION: If userId is missing from query, return empty rather than crashing
+    if (!userId) {
+      return res.status(200).send({ reservations: [], totalDocs: 0 });
+    }
 
     paginate(
-        'Reservation',
-        { user: userId },
-        {
-          customLabels: { docs: "reservations" },
-          populate: ["bike"], limit, page,
-        }
-      ).then(reservations => res.status(200).send(reservations));
+      'Reservation',
+      { user: userId },
+      {
+        customLabels: { docs: "reservations" },
+        populate: ["bike"], 
+        limit, 
+        page,
+      }
+    ).then(result => {
+      // Logic: Ensure the frontend always gets an array, even if empty
+      const reservations = result?.reservations || [];
+      res.status(200).send({ ...result, reservations });
+    })
+    .catch(err => {
+        console.error("Pagination Error:", err);
+        res.status(500).send({ message: DEFAULT });
+    });
   } catch (error) {
     return res.status(500).send({ message: DEFAULT });
   }
