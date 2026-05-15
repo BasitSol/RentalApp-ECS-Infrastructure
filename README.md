@@ -1,114 +1,165 @@
-# RentalApp
+# RentalApp EKS Infrastructure
 
-RentalApp is a full-stack bike rental platform with a React frontend, an Express backend, and MongoDB for persistence. The repository is organized as a small monorepo with separate app folders plus deployment and infrastructure code.
+This repository contains the AWS infrastructure and Kubernetes manifests for running RentalApp on Amazon EKS. It is the EKS-focused cloud stack for the platform, with Terraform provisioning the AWS foundation and Kustomize defining the workloads that run on the cluster.
 
-## What’s inside
+## Architecture
 
-- `client-staging/` contains the React frontend.
-- `api-staging/` contains the Node.js and Express backend.
-- `k8s/` contains Kustomize manifests for local and production deployments.
-- `terraform/` contains AWS-oriented infrastructure code.
+```mermaid
+flowchart TB
+	U[Users / Internet]
 
-## Clone and set up
+	subgraph AWS["AWS us-east-1"]
+		subgraph VPC["Dedicated VPC"]
+			IGW[Internet Gateway]
+			subgraph Public["Public Subnets"]
+				NGINX["Ingress NGINX Load Balancer"]
+			end
+			subgraph Private["Private Subnets"]
+				NAT["NAT Gateways"]
+				EKS["EKS Cluster\nManaged Node Group + OIDC"]
+				subgraph Rental["Namespace: rental"]
+					API["API Deployment\nNode.js / Express\nHPA + PDB"]
+					CLIENT["Client Deployment\nReact + nginx\nPDB"]
+					API_SVC["api-service\nClusterIP"]
+					CLIENT_SVC["client-service\nClusterIP"]
+					SEC["RBAC + Restricted Pod Security\nNetworkPolicies"]
+				end
+			end
+		end
 
-```bash
-git clone https://github.com/BasitSol/RentalApp-DevOps.git
-cd RentalApp
+		SECRETS["AWS Secrets Manager\n/rentalapp/eks-prod/*"]
+		CW["CloudWatch EKS audit logs"]
+		OIDC["IAM OIDC Provider"]
+		DB["MongoDB Atlas or other external MongoDB"]
+	end
+
+	U --> NGINX
+	NGINX --> API_SVC
+	NGINX --> CLIENT_SVC
+	API_SVC --> API
+	CLIENT_SVC --> CLIENT
+	API --> DB
+	SECRETS --> API
+	SECRETS --> CLIENT
+	OIDC --> API
+	EKS --> CW
+	SEC -. protects .-> API
+	SEC -. protects .-> CLIENT
+	IGW --- VPC
+	NAT --- Private
 ```
 
-Install the app dependencies:
+## What This Stack Includes
 
-```bash
-cd api-staging && npm install
-cd ../client-staging && npm install
-```
+- A dedicated VPC with public and private subnets across multiple AZs.
+- An EKS control plane with a managed node group.
+- EKS add-ons for `vpc-cni`, `coredns`, and `kube-proxy`.
+- An IAM OIDC provider for IRSA-ready add-ons and future AWS integrations.
+- AWS Secrets Manager for application secrets.
+- Kubernetes base manifests for the API and frontend workloads.
+- Production overlays for EKS and a separate Minikube overlay for local testing.
+- Deployment helpers for EKS and Minikube.
 
-## Environment files
+## Repository Layout
 
-Copy the example files before running anything locally:
+- [terraform/environments/eks-production](terraform/environments/eks-production) contains the EKS environment wrapper.
+- [terraform/modules/networking](terraform/modules/networking) creates the VPC, subnets, IGW, NAT gateways, and routing.
+- [terraform/modules/eks-cluster](terraform/modules/eks-cluster) provisions the EKS cluster, node group, add-ons, and OIDC provider.
+- [terraform/modules/app-secrets](terraform/modules/app-secrets) stores app secrets in AWS Secrets Manager.
+- [k8s/base](k8s/base) contains reusable Kubernetes resources.
+- [k8s/overlays/eks-production](k8s/overlays/eks-production) contains the EKS production overlay.
+- [k8s/overlays/minikube](k8s/overlays/minikube) contains the local development overlay.
+- [k8s/run-eks.sh](k8s/run-eks.sh) installs cluster add-ons and applies the EKS manifests.
+- [k8s/run-minikube.sh](k8s/run-minikube.sh) bootstraps a local cluster for testing.
 
-```bash
-cp .env.example .env
-cp api-staging/.env.example api-staging/.env
-```
+## AWS Infrastructure
 
-Use your own MongoDB connection and secrets in the copied files. Never commit real secrets.
+Terraform is the source of truth for the cloud foundation. The EKS environment in [terraform/environments/eks-production/main.tf](terraform/environments/eks-production/main.tf) wires together:
 
-## Local development
+1. The VPC and subnets from [terraform/modules/networking/main.tf](terraform/modules/networking/main.tf).
+2. The EKS cluster and managed node group from [terraform/modules/eks-cluster/main.tf](terraform/modules/eks-cluster/main.tf).
+3. Secrets stored in AWS Secrets Manager from [terraform/modules/app-secrets/main.tf](terraform/modules/app-secrets/main.tf).
 
-### Backend
+Important defaults and guardrails:
 
-```bash
-cd api-staging
-npm run dev
-```
+- The cluster version defaults to Kubernetes 1.30.
+- Worker nodes run in private subnets.
+- The EKS API endpoint is intended to be CIDR-restricted.
+- State is stored in S3 with DynamoDB locking.
 
-### Frontend
+## Kubernetes Runtime
 
-```bash
-cd client-staging
-npm start
-```
+The runtime layer is managed with Kustomize.
 
-## Recommended local workflow
+- [k8s/base/namespace.yaml](k8s/base/namespace.yaml) enforces restricted Pod Security Admission.
+- [k8s/base/rbac.yaml](k8s/base/rbac.yaml) creates tokenless service accounts and least-privilege RBAC.
+- [k8s/base/api-deployment.yaml](k8s/base/api-deployment.yaml) defines the Node.js API with security hardening, probes, and resource limits.
+- [k8s/base/client-deployment.yaml](k8s/base/client-deployment.yaml) defines the React/nginx frontend workload.
+- [k8s/base/network-policies.yaml](k8s/base/network-policies.yaml) implements default-deny networking with explicit allows.
+- [k8s/base/api-hpa.yaml](k8s/base/api-hpa.yaml) auto-scales the API.
+- [k8s/base/api-pdb.yaml](k8s/base/api-pdb.yaml) and [k8s/base/client-pdb.yaml](k8s/base/client-pdb.yaml) protect availability during disruptions.
 
-If you want the easiest local setup, follow this order:
+## Secrets Flow
 
-1. Clone the repo.
-2. Copy the example environment files.
-3. Install backend and frontend dependencies.
-4. Start the backend.
-5. Start the frontend.
-6. Confirm the app works before pushing changes.
+The EKS deployment hydrates runtime secrets from AWS Secrets Manager at deploy time.
 
-## Docker Compose
-
-The repository includes a root-level Docker Compose setup for running the app with env-driven configuration.
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-Set `MONGODB_URI`, `SESSION_SECRET`, and `CLIENT_URL` in `.env` before starting the stack. For the live EKS deployment, `CLIENT_URL` should point at the ELB hostname (`http://ae3b0296de3e84446aba612ab8ecb1ea-817453542.us-east-1.elb.amazonaws.com`). The frontend build reads `REACT_APP_API_URL` at build time.
-
-## Available scripts
-
-### Backend (`api-staging`)
-
-- `npm start` - start the API.
-- `npm run dev` - start the API with nodemon.
-
-### Frontend (`client-staging`)
-
-- `npm start` - start the React development server.
-- `npm run build` - create a production build.
-- `npm test` - run the React test suite.
-- `npm run deploy:prod` - run the frontend deployment script.
+1. Secrets are stored under the `/rentalapp/eks-prod` prefix.
+2. [k8s/run-eks.sh](k8s/run-eks.sh) reads them with the AWS CLI.
+3. The script writes `k8s/overlays/eks-production/secrets.env`.
+4. Kustomize turns that file into a Kubernetes Secret.
+5. The API and frontend consume the secret through environment variables.
 
 ## Deployment
 
-### Kubernetes
-
-The Kubernetes setup is split into a reusable base and environment-specific overlays.
-
-- Production-oriented workflow: [k8s/README.md](k8s/README.md)
-- Post-deploy checks: [k8s/verification-runbook.md](k8s/verification-runbook.md)
-
-### Frontend static deploy
-
-The frontend deployment script uploads the production build to S3 and refreshes CloudFront:
+### Provision AWS resources
 
 ```bash
-cd client-staging
-FRONTEND_BUCKET_NAME=your-bucket-name \
-CLOUDFRONT_DISTRIBUTION_ID=your-distribution-id \
-AWS_REGION=us-east-1 \
-npm run deploy:prod
+cd terraform/environments/eks-production
+terraform init
+terraform plan -out=tfplan
+terraform apply tfplan
 ```
+
+### Configure kubectl
+
+```bash
+aws eks update-kubeconfig --region us-east-1 --name rentalapp-eks-prod-eks
+```
+
+### Deploy the platform
+
+```bash
+./k8s/run-eks.sh
+```
+
+The helper installs `ingress-nginx`, `cert-manager`, and `metrics-server`, then applies the EKS overlay and waits for the API and client rollouts to finish.
+
+## Security Model
+
+- Namespace-level Pod Security Admission uses the `restricted` profile.
+- Service account tokens are disabled for the app workloads.
+- The API and client pods run as non-root users with read-only root filesystems.
+- NetworkPolicy uses default-deny plus explicit ingress and egress paths.
+- The EKS control plane logs are enabled for audit and troubleshooting.
+
+## Operations And Verification
+
+- Use [k8s/verification-runbook.md](k8s/verification-runbook.md) for smoke tests and policy checks.
+- Use [terraform/environments/eks-production/README.md](terraform/environments/eks-production/README.md) for the environment provisioning flow.
+- Use [k8s/README.md](k8s/README.md) for overlay behavior and local vs production deployment details.
+
+## Local Testing
+
+The Minikube overlay exists for safe local validation.
+
+```bash
+./k8s/run-minikube.sh
+```
+
+That path builds local images, enables the ingress and metrics addons, and applies the Minikube overlay with a single-node MongoDB for development.
 
 ## Notes
 
-- The backend uses session-based authentication with Passport.
-- The frontend expects the API to be reachable from the same deployment environment or through the configured API base URL.
-- Keep generated files, Terraform state, and secrets out of Git.
+- This repository is EKS-first, but some older ECS-era files still exist in the tree during migration.
+- Keep Terraform state, generated secret files, and local environment files out of Git.
+- If you use a custom domain, point it at the ingress controller endpoint after AWS provisions the load balancer.
