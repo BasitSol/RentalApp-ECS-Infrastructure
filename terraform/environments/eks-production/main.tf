@@ -26,6 +26,10 @@ module "eks_cluster" {
   node_desired_size                    = var.node_desired_size
   node_disk_size                       = var.node_disk_size
   tags                                 = var.tags
+  external_secrets_enabled             = var.external_secrets_enabled
+  external_secrets_namespace           = var.external_secrets_namespace
+  external_secrets_service_account     = var.external_secrets_service_account
+  external_secrets_secret_prefix       = var.secret_prefix
 }
 
 module "app_secrets" {

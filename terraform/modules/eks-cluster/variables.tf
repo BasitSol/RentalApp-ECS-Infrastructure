@@ -71,3 +71,23 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "external_secrets_enabled" {
+  type    = bool
+  default = true
+}
+
+variable "external_secrets_namespace" {
+  type    = string
+  default = "rental"
+}
+
+variable "external_secrets_service_account" {
+  type    = string
+  default = "rental-external-secrets"
+}
+
+variable "external_secrets_secret_prefix" {
+  type    = string
+  default = "/rentalapp/eks-prod"
+}

@@ -36,6 +36,8 @@ data "aws_iam_policy_document" "node_assume_role" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "nodes" {
   name               = "${local.name_prefix}-eks-node-role"
   assume_role_policy = data.aws_iam_policy_document.node_assume_role.json
@@ -153,4 +155,62 @@ resource "aws_iam_openid_connect_provider" "main" {
   url             = aws_eks_cluster.main.identity[0].oidc[0].issuer
 
   tags = local.common_tags
+}
+
+data "aws_iam_policy_document" "external_secrets_assume_role" {
+  count = var.external_secrets_enabled ? 1 : 0
+
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.main.arn]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.main.url, "https://", "")}:sub"
+      values = [
+        "system:serviceaccount:${var.external_secrets_namespace}:${var.external_secrets_service_account}",
+      ]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.main.url, "https://", "")}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "external_secrets" {
+  count              = var.external_secrets_enabled ? 1 : 0
+  name               = "${local.name_prefix}-external-secrets"
+  assume_role_policy = data.aws_iam_policy_document.external_secrets_assume_role[0].json
+  tags               = local.common_tags
+}
+
+data "aws_iam_policy_document" "external_secrets_policy" {
+  count = var.external_secrets_enabled ? 1 : 0
+
+  statement {
+    actions = [
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:ListSecretVersionIds",
+    ]
+    resources = [
+      "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${var.external_secrets_secret_prefix}*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "external_secrets" {
+  count  = var.external_secrets_enabled ? 1 : 0
+  name   = "${local.name_prefix}-external-secrets"
+  policy = data.aws_iam_policy_document.external_secrets_policy[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "external_secrets" {
+  count      = var.external_secrets_enabled ? 1 : 0
+  role       = aws_iam_role.external_secrets[0].name
+  policy_arn = aws_iam_policy.external_secrets[0].arn
 }

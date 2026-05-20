@@ -6,17 +6,13 @@ namespace: rental
 resources:
   - ../../base
   - cluster-issuer.yaml
+  - external-secrets.yaml
 
 patches:
   - path: patch-ingress.yaml
   - path: patch-api-deployment.yaml
   - path: patch-client-deployment.yaml
   - path: patch-configmap.yaml
-
-secretGenerator:
-  - name: rental-api-secrets
-    envs:
-      - secrets.env
 
 images:
   - name: ghcr.io/your-org/rental-backend

@@ -9,4 +9,5 @@ spec:
     spec:
       containers:
         - name: api
+          image: 664418980347.dkr.ecr.us-east-1.amazonaws.com/rental/api@sha256:69d65560ead3b308bbb1f22437c394b7f67f912346b8fd3f9fa2dcccef23dc3f
           imagePullPolicy: Always

@@ -32,3 +32,8 @@ output "kubectl_config_command" {
   value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main.name}"
   description = "Command to configure kubectl for the cluster."
 }
+
+output "external_secrets_role_arn" {
+  value       = var.external_secrets_enabled ? aws_iam_role.external_secrets[0].arn : null
+  description = "IAM role ARN for External Secrets (IRSA)."
+}

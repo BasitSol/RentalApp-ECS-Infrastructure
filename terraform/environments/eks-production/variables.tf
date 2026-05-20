@@ -111,3 +111,45 @@ variable "jwt_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "external_secrets_enabled" {
+  description = "Whether to create the External Secrets IRSA role."
+  type        = bool
+  default     = true
+}
+
+variable "external_secrets_namespace" {
+  description = "Namespace for the External Secrets service account."
+  type        = string
+  default     = "rental"
+}
+
+variable "external_secrets_service_account" {
+  description = "Service account name used by External Secrets for IRSA."
+  type        = string
+  default     = "rental-external-secrets"
+}
+
+variable "ingress_host" {
+  description = "Ingress host for the EKS environment."
+  type        = string
+  default     = "ae3b0296de3e84446aba612ab8ecb1ea-817453542.us-east-1.elb.amazonaws.com"
+}
+
+variable "api_image" {
+  description = "API image reference (tag or digest)."
+  type        = string
+  default     = "664418980347.dkr.ecr.us-east-1.amazonaws.com/rental/api@sha256:69d65560ead3b308bbb1f22437c394b7f67f912346b8fd3f9fa2dcccef23dc3f"
+}
+
+variable "client_image" {
+  description = "Client image reference (tag or digest)."
+  type        = string
+  default     = "664418980347.dkr.ecr.us-east-1.amazonaws.com/rental/client@sha256:4dd68e32bf69eda950197fae577b5c9154f46eb4fea8a74f99c1bfcfd2fd8f09"
+}
+
+variable "enable_k8s_resources" {
+  description = "Whether to manage Kubernetes and Helm resources via Terraform."
+  type        = bool
+  default     = false
+}

@@ -18,19 +18,7 @@ terraform plan -out=tfplan
 terraform apply tfplan
 ```
 
-After the cluster exists, configure kubectl:
-
-```bash
-aws eks update-kubeconfig --region us-east-1 --name rentalapp-eks-prod-eks
-```
-
-Then install the Kubernetes add-ons and apply the app manifests with the helper script:
-
-```bash
-../../../k8s/run-eks.sh
-```
-
-The helper script pulls `MONGODB_URI`, `SESSION_SECRET`, and `JWT_SECRET` from AWS Secrets Manager using the `/rentalapp/eks-prod` prefix by default.
+Terraform also installs the cluster add-ons (ingress-nginx, cert-manager, metrics-server, external-secrets) and applies the application manifests via the Kubernetes and Helm providers. This removes the need for the helper script.
 
 ## Notes
 

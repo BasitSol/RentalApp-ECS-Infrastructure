@@ -9,4 +9,5 @@ spec:
     spec:
       containers:
         - name: client
+          image: 664418980347.dkr.ecr.us-east-1.amazonaws.com/rental/client@sha256:4dd68e32bf69eda950197fae577b5c9154f46eb4fea8a74f99c1bfcfd2fd8f09
           imagePullPolicy: Always

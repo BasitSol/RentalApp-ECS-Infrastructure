@@ -1,0 +1,74 @@
+name: Deploy EKS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPO_API: rental/api
+  ECR_REPO_CLIENT: rental/client
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push API image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t "$REGISTRY/$ECR_REPO_API:$IMAGE_TAG" ./api-staging
+          docker push "$REGISTRY/$ECR_REPO_API:$IMAGE_TAG"
+
+      - name: Build and push client image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t "$REGISTRY/$ECR_REPO_CLIENT:$IMAGE_TAG" ./client-staging
+          docker push "$REGISTRY/$ECR_REPO_CLIENT:$IMAGE_TAG"
+
+      - name: Resolve image digests
+        id: digests
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          API_DIGEST=$(aws ecr describe-images --repository-name "$ECR_REPO_API" --image-ids imageTag="$IMAGE_TAG" --query 'imageDetails[0].imageDigest' --output text)
+          CLIENT_DIGEST=$(aws ecr describe-images --repository-name "$ECR_REPO_CLIENT" --image-ids imageTag="$IMAGE_TAG" --query 'imageDetails[0].imageDigest' --output text)
+          echo "api_image=$REGISTRY/$ECR_REPO_API@$API_DIGEST" >> "$GITHUB_OUTPUT"
+          echo "client_image=$REGISTRY/$ECR_REPO_CLIENT@$CLIENT_DIGEST" >> "$GITHUB_OUTPUT"
+
+      - name: Terraform init
+        run: terraform -chdir=terraform/environments/eks-production init
+
+      - name: Terraform apply (infra + k8s)
+        env:
+          TF_VAR_mongodb_uri: ${{ secrets.MONGODB_URI }}
+          TF_VAR_session_secret: ${{ secrets.SESSION_SECRET }}
+          TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
+          TF_VAR_api_image: ${{ steps.digests.outputs.api_image }}
+          TF_VAR_client_image: ${{ steps.digests.outputs.client_image }}
+          TF_VAR_enable_k8s_resources: "true"
+        run: |
+          terraform -chdir=terraform/environments/eks-production apply -auto-approve
