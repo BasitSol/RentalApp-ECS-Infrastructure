@@ -59,6 +59,11 @@ jobs:
           echo "api_image=$REGISTRY/$ECR_REPO_API@$API_DIGEST" >> "$GITHUB_OUTPUT"
           echo "client_image=$REGISTRY/$ECR_REPO_CLIENT@$CLIENT_DIGEST" >> "$GITHUB_OUTPUT"
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
       - name: Terraform init
         run: terraform -chdir=terraform/environments/eks-production init
 
